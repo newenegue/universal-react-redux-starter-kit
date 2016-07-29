@@ -5,6 +5,8 @@ import { useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
+import { getStyles } from './modules/Assetic'
+import layout from '../config/layout'
 
 // ========================================================
 // Browser History Setup
@@ -40,16 +42,24 @@ if (0 && __DEBUG__) {
 // ========================================================
 const MOUNT_NODE = document.getElementById('root')
 
+const links = getStyles().map(asset => ({
+  rel: 'stylesheet',
+  href: `${asset}`
+}))
+
 let render = (routerKey = null) => {
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
-    <AppContainer
-      store={store}
-      history={history}
-      routes={routes}
-      routerKey={routerKey}
-    />,
+    <view>
+      <AppContainer
+        store={store}
+        history={history}
+        routes={routes}
+        routerKey={routerKey}
+        layout={{ ...layout, link: links }}
+      />
+    </view>,
     MOUNT_NODE
   )
 }

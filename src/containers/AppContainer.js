@@ -1,9 +1,12 @@
 import React, { PropTypes } from 'react'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
+import Helmet from 'react-helmet'
+import defaultLayout from '../../config/layout'
 
 class AppContainer extends React.Component {
   static propTypes = {
+    layout: PropTypes.object,
     history: PropTypes.object.isRequired,
     routes: PropTypes.object.isRequired,
     routerKey: PropTypes.number,
@@ -11,11 +14,12 @@ class AppContainer extends React.Component {
   }
 
   render () {
-    const { history, routes, routerKey, store } = this.props
+    const { layout, history, routes, routerKey, store } = this.props
 
     return (
       <Provider store={store}>
         <div style={{ height: '100%' }}>
+          <Helmet {...Object.assign(defaultLayout, layout)} />
           <Router history={history} children={routes} key={routerKey} />
         </div>
       </Provider>
