@@ -51,15 +51,13 @@ let render = (routerKey = null) => {
   const routes = require('./routes/index').default(store)
 
   ReactDOM.render(
-    <view>
-      <AppContainer
-        store={store}
-        history={history}
-        routes={routes}
-        routerKey={routerKey}
-        layout={{ ...layout, link: links }}
-      />
-    </view>,
+    <AppContainer
+      store={store}
+      history={history}
+      routes={routes}
+      routerKey={routerKey}
+      layout={{ ...layout, link: links }}
+    />,
     MOUNT_NODE
   )
 }
