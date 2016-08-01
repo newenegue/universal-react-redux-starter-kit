@@ -24,6 +24,15 @@ export default async () => {
     app.use(convert(proxy(config.proxy.options)))
   }
 
+  // This rewrites all routes requests to the root /index.html file
+  // (ignoring file requests).
+  if (!config.universal || !config.universal.enabled) {
+    debug('Enable HistoryApiFallback middleware.')
+    app.use(convert(historyApiFallback({
+      verbose: false
+    })))
+  }
+
   // ------------------------------------
   // Apply Webpack HMR Middleware
   // ------------------------------------
@@ -34,7 +43,7 @@ export default async () => {
     const { publicPath } = webpackConfigClient.output
 
     // Catch the hash of the build in order to use it in the universal middleware
-    config.universal && compiler.plugin('done', stats => {
+    config.universal && config.universal.enabled && compiler.plugin('done', stats => {
       // Create client info from the fresh build
       clientInfo = {
         assetsByChunkName: {
@@ -83,12 +92,6 @@ export default async () => {
   if (config.universal && config.universal.enabled) {
     let um = await universalMiddleware()
     app.use(um.default(() => clientInfo))
-  } else {
-    // This rewrites all routes requests to the root /index.html file
-    // (ignoring file requests).
-    app.use(convert(historyApiFallback({
-      verbose: false
-    })))
   }
 
   return Promise.resolve(app)

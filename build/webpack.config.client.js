@@ -43,7 +43,7 @@ webpackConfigClient.output = {
 // ------------------------------------
 // Plugins
 // ------------------------------------
-if (!config.universal) {
+if (!config.universal || !config.universal.enabled) {
   webpackConfigClient.plugins.push(
     new HtmlWebpackPlugin({
       template: paths.src('index.html'),
