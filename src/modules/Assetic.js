@@ -6,8 +6,8 @@ const fixLocalAsset = assets => (
 
 export const getAssets = (localAssets = []) => (
   Array.concat(
-    layout.scripts,
-    layout.styles,
+    layout.script.map(item => item.src),
+    layout.link.map(item => item.href),
     localAssets.map(asset => fixLocalAsset(asset))
   )
 )

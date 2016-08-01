@@ -40,13 +40,14 @@ export default getClientInfo => {
         }))
 
       // React-helmet will overwrite the layout once the client start running so that
-      // we don't have to remove our unused styles
-      let layout = {...defaultLayout,
+      // we don't have to remove our unused styles generated on server side
+      let layout = {
+        ...defaultLayout,
         link: links,
         style: getStyles().map(style => ({
           cssText: style.parts.map(part => `${part.css}\n`).join('\n')
         })),
-        script: [
+        script: [...defaultLayout.script,
           {type: 'text/javascript', innerHTML: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}
         ]
       }

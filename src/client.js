@@ -42,11 +42,6 @@ if (0 && __DEBUG__) {
 // ========================================================
 const MOUNT_NODE = document.getElementById('root')
 
-const links = getStyles().map(asset => ({
-  rel: 'stylesheet',
-  href: `${asset}`
-}))
-
 let render = (routerKey = null) => {
   const routes = require('./routes/index').default(store)
 
@@ -56,7 +51,7 @@ let render = (routerKey = null) => {
       history={history}
       routes={routes}
       routerKey={routerKey}
-      layout={{ ...layout, link: links }}
+      layout={{...layout}}
     />,
     MOUNT_NODE
   )
