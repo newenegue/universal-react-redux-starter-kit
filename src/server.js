@@ -44,7 +44,8 @@ export default getClientInfo => {
         style: getStyles().map(style => ({
           cssText: style.parts.map(part => `${part.css}\n`).join('\n')
         })),
-        script: [...defaultLayout.script,
+        script: [
+          ...defaultLayout.script,
           {type: 'text/javascript', innerHTML: `___INITIAL_STATE__ = ${JSON.stringify(store.getState())}`}
         ]
       }
