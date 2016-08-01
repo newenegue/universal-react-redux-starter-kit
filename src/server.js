@@ -10,6 +10,7 @@ import AppContainer from './containers/AppContainer'
 import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
 import defaultLayout from '../config/layout'
+import renderLayout from './modules/Layout'
 
 const debug = _debug('app:server:universal:render')
 
@@ -28,10 +29,6 @@ export default getClientInfo => {
 
       let head, content
       let {app, vendor} = getClientInfo().assetsByChunkName
-
-      let scripts = Assetic
-        .getScripts(([vendor, app]))
-        .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`}></script>)
       let links = Assetic
         .getStyles(([vendor, app]))
         .map(asset => ({
@@ -52,26 +49,6 @@ export default getClientInfo => {
         ]
       }
 
-      const render = () => (
-        '<!DOCTYPE html>' +
-        renderToStaticMarkup(
-          <html>
-            <head>
-              {head.title.toComponent()}
-              {head.meta.toComponent()}
-              {head.base.toComponent()}
-              {head.link.toComponent()}
-              {head.script.toComponent()}
-              {head.style.toComponent()}
-            </head>
-            <body>
-              <div id='root' style={{height: '100%'}} dangerouslySetInnerHTML={{__html: content}} />
-              {scripts}
-            </body>
-          </html>
-        )
-      )
-
       // ----------------------------------
       // Internal server error
       // ----------------------------------
@@ -84,9 +61,8 @@ export default getClientInfo => {
           </div>
         )
         head = Helmet.rewind()
-        scripts = []
         ctx.status = 500
-        ctx.body = render()
+        ctx.body = renderLayout(head, content)
         return
       }
 
@@ -113,15 +89,17 @@ export default getClientInfo => {
           </div>
         )
         head = Helmet.rewind()
-        scripts = []
         ctx.status = 404
-        ctx.body = render()
+        ctx.body = renderLayout(head, content)
         return
       }
 
       // ----------------------------------
       // Everything went fine so far
       // ----------------------------------
+      let scripts = Assetic
+        .getScripts(([vendor, app]))
+        .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`}></script>)
       content = renderToStaticMarkup(
         <AppContainer
           history={history}
@@ -132,7 +110,7 @@ export default getClientInfo => {
       )
       head = Helmet.rewind()
       ctx.status = 200
-      ctx.body = render()
+      ctx.body = renderLayout(head, content, scripts)
     })
   }
 }

@@ -46,10 +46,10 @@ webpackConfigClient.output = {
 if (!config.universal || !config.universal.enabled) {
   webpackConfigClient.plugins.push(
     new HtmlWebpackPlugin({
-      template: paths.src('index.html'),
+      template: paths.dist(config.index_template),
       hash: false,
       favicon: paths.src('static/favicon.ico'),
-      filename: 'index.html',
+      filename: config.index_template,
       inject: 'body',
       minify: {
         collapseWhitespace: true

@@ -36,10 +36,13 @@ const config = {
   server_host   : process.env.HOST || localip,
   server_port   : process.env.PORT || 3000,
   universal     : {
-    enabled     : true,
+    enabled     : 0,
     output      : 'server.js',
     client_info : 'client_info.json'
   },
+
+  // For client-only rendering (this will be used as a template for HtmlWebpackPlugin)
+  index_template: 'index.html',
 
   // ----------------------------------
   // Compiler Configuration
