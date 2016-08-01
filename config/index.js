@@ -36,7 +36,7 @@ const config = {
   server_host   : process.env.HOST || localip,
   server_port   : process.env.PORT || 3000,
   universal     : {
-    enabled     : 0,
+    enabled     : true,
     output      : 'server.js',
     client_info : 'client_info.json'
   },
