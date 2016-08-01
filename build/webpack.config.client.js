@@ -20,7 +20,6 @@ webpackConfigClient.target = 'web'
 // Entry Points
 // ------------------------------------
 const APP_ENTRY_PATHS = [
-  'babel-polyfill',
   paths.src(config.entry_client)
 ]
 
