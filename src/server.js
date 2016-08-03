@@ -78,10 +78,7 @@ export default getClientInfo => {
       // No route matched
       // This should never happen if the router has a '*' route defined
       // ----------------------------------
-      if (next &&
-        typeof err === 'undefined' &&
-        typeof redirect === 'undefined' &&
-        typeof props === 'undefined') {
+      if (typeof err === 'undefined' && typeof redirect === 'undefined' && typeof props === 'undefined') {
         debug('No route found.')
 
         // We could call our next middleware maybe
