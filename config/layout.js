@@ -9,6 +9,7 @@ export default Object.freeze({
     {name: 'viewport', content: 'width=device-width, initial-scale=1'}
   ],
   link: [
+    {rel: 'shortcut icon', href: '/favicon.ico'},
     {rel: 'stylesheet', href: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'}
   ],
   script: [],
