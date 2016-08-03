@@ -5,7 +5,6 @@ import { useRouterHistory } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
-import { getStyles } from './modules/Assetic'
 import layout from '../config/layout'
 
 // ========================================================
@@ -51,7 +50,7 @@ let render = (routerKey = null) => {
       history={history}
       routes={routes}
       routerKey={routerKey}
-      layout={{...layout}}
+      layout={{...layout, ...(window.___LAYOUT__ || {})}}
     />,
     MOUNT_NODE
   )

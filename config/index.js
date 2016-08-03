@@ -41,9 +41,6 @@ const config = {
     client_info : 'client_info.json'
   },
 
-  // For client-only rendering (this will be used as a template for HtmlWebpackPlugin)
-  index_template: 'index.html',
-
   // ----------------------------------
   // Compiler Configuration
   // ----------------------------------
