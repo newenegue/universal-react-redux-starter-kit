@@ -11,6 +11,7 @@ import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
 import defaultLayout from '../config/layout'
 import { renderHtmlLayout } from 'helmet-webpack-plugin'
+import config from '../config'
 
 const debug = _debug('app:server:universal:render')
 
@@ -114,8 +115,9 @@ export default getClientInfo => {
           layout={layout} />
       )
       head = Helmet.rewind()
+      let body = <div key='body' {...config.app_mount_point} dangerouslySetInnerHTML={{__html: content}} />
       ctx.status = 200
-      ctx.body = renderHtmlLayout(head, [<div id='root' key='body' dangerouslySetInnerHTML={{__html: content}} />, scripts])
+      ctx.body = renderHtmlLayout(head, [body, scripts])
     })
   }
 }

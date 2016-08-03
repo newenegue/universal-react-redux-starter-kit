@@ -47,7 +47,8 @@ webpackConfigClient.output = {
 if (!config.universal || !config.universal.enabled) {
   webpackConfigClient.plugins.push(
     new HelmetWebpackPlugin({
-      props: layout
+      helmetProps: layout,
+      rootProps: config.app_mount_point
     })
   )
 }

@@ -31,6 +31,14 @@ const config = {
   entry_server: 'server.js',
 
   // ----------------------------------
+  // App mount point config
+  // ----------------------------------
+  app_mount_point: {
+    id: 'root',
+    style: {height: '100%'}
+  },
+
+  // ----------------------------------
   // Server Configuration
   // ----------------------------------
   server_host   : process.env.HOST || localip,
