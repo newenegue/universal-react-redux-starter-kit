@@ -11,11 +11,6 @@ import config from '../config'
 import webpackDevMiddleware from './middleware/webpack-dev'
 import webpackHMRMiddleware from './middleware/webpack-hmr'
 import universalMiddleware from './middleware/universal'
-import React from 'react'
-import Helmet from 'react-helmet'
-import { renderToStaticMarkup } from 'react-dom/server'
-import renderLayout from '../src/modules/Layout'
-import defaultLayout from '../config/layout'
 
 const debug = _debug('app:server')
 const paths = config.utils_paths
@@ -36,16 +31,6 @@ export default async () => {
     app.use(convert(historyApiFallback({
       verbose: false
     })))
-
-    // Generate index.html for HtmlWebpackPlugin
-    debug('Generate template for HtmlWebpackPlugin.')
-    renderToStaticMarkup(<Helmet {...defaultLayout} />)
-    let head = Helmet.rewind()
-    let html = renderLayout(head)
-    let fd = fs.openSync(paths.dist(config.index_template), 'w')
-
-    fs.writeSync(fd, html)
-    fs.closeSync(fd)
   }
 
   // ------------------------------------

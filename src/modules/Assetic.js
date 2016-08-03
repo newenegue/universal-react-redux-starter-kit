@@ -4,11 +4,27 @@ const fixLocalAsset = assets => (
   (Array.isArray(assets) ? assets : [assets]).map(asset => `/${asset}`)
 )
 
+const normalizeAssets = assets => {
+  let normalized = []
+
+  assets.forEach(item => {
+    if (Array.isArray(item)) {
+      item.forEach(asset => {
+        normalized.push(asset)
+      })
+    } else {
+      normalized.push(item)
+    }
+  })
+
+  return normalized
+}
+
 export const getAssets = (localAssets = []) => (
   Array.concat(
     layout.script.map(item => item.src),
     layout.link.map(item => item.href),
-    localAssets.map(asset => fixLocalAsset(asset))
+    normalizeAssets(localAssets.map(asset => fixLocalAsset(asset)))
   )
 )
 

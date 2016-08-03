@@ -1,10 +1,11 @@
 import webpack from 'webpack'
 import webpackConfig from './webpack.config'
-import HtmlWebpackPlugin from 'html-webpack-plugin'
+import HelmetWebpackPlugin from 'helmet-webpack-plugin'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import clone from 'clone'
 import config from '../config'
 import _debug from 'debug'
+import layout from '../config/layout'
 
 const debug = _debug('app:webpack:config')
 const paths = config.utils_paths
@@ -44,15 +45,9 @@ webpackConfigClient.output = {
 // ------------------------------------
 if (!config.universal || !config.universal.enabled) {
   webpackConfigClient.plugins.push(
-    new HtmlWebpackPlugin({
-      template: paths.dist(config.index_template),
-      hash: false,
-      favicon: paths.src('static/favicon.ico'),
-      filename: config.index_template,
-      inject: 'body',
-      minify: {
-        collapseWhitespace: true
-      }
+    new HelmetWebpackPlugin({
+      helmetProps: layout,
+      rootProps: config.app_mount_point
     })
   )
 }

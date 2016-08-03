@@ -31,6 +31,14 @@ const config = {
   entry_server: 'server.js',
 
   // ----------------------------------
+  // App mount point config
+  // ----------------------------------
+  app_mount_point: {
+    id: 'root',
+    style: {height: '100%'}
+  },
+
+  // ----------------------------------
   // Server Configuration
   // ----------------------------------
   server_host   : process.env.HOST || localip,
@@ -40,9 +48,6 @@ const config = {
     output      : 'server.js',
     client_info : 'client_info.json'
   },
-
-  // For client-only rendering (this will be used as a template for HtmlWebpackPlugin)
-  index_template: 'index.html',
 
   // ----------------------------------
   // Compiler Configuration
