@@ -1,6 +1,6 @@
 {
   "name": "react-redux-starter-kit",
-  "version": "3.0.0-alpha.1",
+  "version": "3.0.0-alpha.2",
   "description": "Get started with React, Redux, and React-Router!",
   "main": "index.js",
   "engines": {
@@ -86,6 +86,12 @@
       }
     }
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janoist1/universal-react-redux-starter-kit.git"
+  },
+  "author": "Istvan Jano <janoist1@gmail.com> *universal feature",
+  "license": "MIT",
   "dependencies": {
     "babel-cli": "^6.5.1",
     "babel-core": "^6.3.17",
@@ -94,11 +100,10 @@
     "babel-polyfill": "^6.9.0",
     "babel-preset-es2015": "^6.3.13",
     "babel-preset-react": "^6.3.13",
-    "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-0": "^6.3.13",
     "babel-register": "^6.3.13",
     "babel-runtime": "^6.3.19",
-    "better-npm-run": "0.0.9",
+    "better-npm-run": "0.0.10",
     "clone": "^1.0.2",
     "css-loader": "^0.23.1",
     "cssnano": "^3.7.3",
@@ -134,8 +139,7 @@
     "simple-universal-style-loader": "^0.14.3",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
-    "webpack-to-memory": "^1.0.0-beta",
-    "yargs": "^4.8.0"
+    "yargs": "^4.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.0.0-beta.6",
@@ -150,7 +154,7 @@
     "eslint-config-standard-react": "^3.0.0",
     "eslint-plugin-babel": "^3.2.0",
     "eslint-plugin-promise": "^2.0.0",
-    "eslint-plugin-react": "^5.0.0",
+    "eslint-plugin-react": "^6.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "isparta-loader": "^2.0.0",
     "karma": "^1.0.0",
@@ -159,7 +163,7 @@
     "karma-mocha-reporter": "^2.0.0",
     "karma-phantomjs-launcher": "^1.0.0",
     "karma-webpack-with-fast-source-maps": "^1.9.2",
-    "mocha": "^2.2.5",
+    "mocha": "^3.0.1",
     "nodemon": "^1.8.1",
     "phantomjs-prebuilt": "^2.1.3",
     "react-addons-test-utils": "^15.0.0",
