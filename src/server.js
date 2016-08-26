@@ -1,6 +1,6 @@
 import React from 'react'
 import { match } from 'react-router'
-import { renderToStaticMarkup } from 'react-dom/server'
+import { renderToString } from 'react-dom/server'
 import { syncHistoryWithStore } from 'react-router-redux'
 import createMemoryHistory from 'react-router/lib/createMemoryHistory'
 import { getStyles } from 'simple-universal-style-loader'
@@ -62,7 +62,7 @@ export default getClientInfo => {
       // Internal server error
       // ----------------------------------
       if (err) {
-        content = renderToStaticMarkup(
+        content = renderToString(
           <div>
             <Helmet {...{...layout, title: '500 - Internal server error'}} />
             <h3>Error 500</h3>
@@ -87,7 +87,7 @@ export default getClientInfo => {
         // return
 
         // Or display a 404 page
-        content = renderToStaticMarkup(
+        content = renderToString(
           <div>
             <Helmet {...{...layout, title: '404 - Page not found'}} />
             <h3>Error 404</h3>
@@ -106,7 +106,7 @@ export default getClientInfo => {
       let scripts = Assetic
         .getScripts(([vendor, app]))
         .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`}></script>)
-      content = renderToStaticMarkup(
+      content = renderToString(
         <AppContainer
           history={history}
           routerKey={Math.random()}

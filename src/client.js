@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createBrowserHistory from 'history/lib/createBrowserHistory'
-import { useRouterHistory } from 'react-router'
+import { useRouterHistory, match } from 'react-router'
 import { syncHistoryWithStore } from 'react-router-redux'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
@@ -44,16 +44,25 @@ const MOUNT_NODE = document.getElementById('root')
 let render = (routerKey = null) => {
   const routes = require('./routes/index').default(store)
 
-  ReactDOM.render(
-    <AppContainer
-      store={store}
-      history={history}
-      routes={routes}
-      routerKey={routerKey}
-      layout={{...layout, ...(window.___LAYOUT__ || {})}}
-    />,
-    MOUNT_NODE
-  )
+  match({ history, routes }, (error, redirectLocation, renderProps) => {
+    // todo: Error handling should be improved
+    if (error) {
+      console.log(error)
+      return
+    }
+
+    ReactDOM.render(
+      <AppContainer
+        {...renderProps}
+        store={store}
+        history={history}
+        routes={routes}
+        routerKey={routerKey}
+        layout={{...layout, ...(window.___LAYOUT__ || {})}}
+      />,
+      MOUNT_NODE
+    )
+  })
 }
 
 // Enable HMR and catch runtime errors in RedBox
