@@ -1,6 +1,6 @@
 import React from 'react'
 import { match } from 'react-router'
-import { renderToString } from 'react-dom/server'
+import { renderToString, renderToStaticMarkup } from 'react-dom/server'
 import { syncHistoryWithStore } from 'react-router-redux'
 import createMemoryHistory from 'react-router/lib/createMemoryHistory'
 import { getStyles } from 'simple-universal-style-loader'
@@ -11,6 +11,7 @@ import _debug from 'debug'
 import * as Assetic from './modules/Assetic'
 import defaultLayout from '../config/layout'
 import { renderHtmlLayout } from 'helmet-webpack-plugin'
+import PrettyError from 'pretty-error'
 import config from '../config'
 
 const debug = _debug('app:server:universal:render')
@@ -37,6 +38,25 @@ export default getClientInfo => {
           href: `${asset}`
         }))
 
+      const handleError = ({status, message, error = null, children = null}) => {
+        if (error) {
+          let pe = new PrettyError()
+          debug(pe.render(error))
+        }
+
+        let title = `${status} - ${message}`
+        content = renderToStaticMarkup(
+          <div>
+            <Helmet {...{...layout, title}} />
+            <h3>{title}</h3>
+            {children}
+          </div>
+        )
+        head = Helmet.rewind()
+        ctx.status = 500
+        ctx.body = renderHtmlLayout(head, <div dangerouslySetInnerHTML={{__html: content}} />)
+      }
+
       // This will be transferred to the client side in __LAYOUT__ variable
       // when universal is enabled we need to make sure the client to know about the chunk styles
       let layoutWithLinks = {
@@ -62,16 +82,7 @@ export default getClientInfo => {
       // Internal server error
       // ----------------------------------
       if (err) {
-        content = renderToString(
-          <div>
-            <Helmet {...{...layout, title: '500 - Internal server error'}} />
-            <h3>Error 500</h3>
-            <div>{'An error occurred:' + err}</div>
-          </div>
-        )
-        head = Helmet.rewind()
-        ctx.status = 500
-        ctx.body = renderHtmlLayout(head, content)
+        handleError({status: 500, message: 'Internal server error', error: err})
         return
       }
 
@@ -87,16 +98,7 @@ export default getClientInfo => {
         // return
 
         // Or display a 404 page
-        content = renderToString(
-          <div>
-            <Helmet {...{...layout, title: '404 - Page not found'}} />
-            <h3>Error 404</h3>
-            <div>404 - Page not found</div>
-          </div>
-        )
-        head = Helmet.rewind()
-        ctx.status = 404
-        ctx.body = renderHtmlLayout(head, content)
+        handleError({status: 404, message: 'Page not found'})
         return
       }
 
@@ -106,14 +108,21 @@ export default getClientInfo => {
       let scripts = Assetic
         .getScripts(([vendor, app]))
         .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`} />)
-      content = renderToString(
-        <AppContainer
-          history={history}
-          routerKey={Math.random()}
-          routes={routes}
-          store={store}
-          layout={layout} />
-      )
+
+      try {
+        content = renderToString(
+          <AppContainer
+            history={history}
+            routerKey={Math.random()}
+            routes={routes}
+            store={store}
+            layout={layout} />
+        )
+      } catch (err) {
+        handleError({status: 500, message: 'Internal Server Error', error: err})
+        return
+      }
+
       head = Helmet.rewind()
       let body = <div key='body' {...config.app_mount_point} dangerouslySetInnerHTML={{__html: content}} />
       ctx.status = 200
