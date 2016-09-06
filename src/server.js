@@ -105,7 +105,7 @@ export default getClientInfo => {
       // ----------------------------------
       let scripts = Assetic
         .getScripts(([vendor, app]))
-        .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`}></script>)
+        .map((asset, i) => <script key={i} type='text/javascript' src={`${asset}`} />)
       content = renderToString(
         <AppContainer
           history={history}
